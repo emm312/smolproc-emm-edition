@@ -19,9 +19,9 @@ module regfile(
             data_out_A <= 0;
             data_out_B <= 0;
             regs[0] <= 0;
-            regs[1] <= 5;
+            regs[1] <= 0;
             regs[2] <= 0;
-            regs[3] <= 5;
+            regs[3] <= 0;
         end
     end
 endmodule

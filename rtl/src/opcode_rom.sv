@@ -11,7 +11,7 @@ module opcode_rom(
 );
     wire [2:0] instr_t_inner;
     always_comb begin
-        case (opcode[3:0])
+        case (opcode[7:4])
             4'b0000: instr_t = Normal;
             4'b0001: instr_t = Normal;
             4'b0010: instr_t = Normal;

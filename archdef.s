@@ -9,10 +9,9 @@
 	C => 0x2
 	D => 0x3
 }
+
 #ruledef
-{
-	#bits 8
-	
+{	
 	add {rd: reg}, {rs: reg} => 0b0000 @ rs`2 @ rd`2
 	adc {rd: reg}, {rs: reg} => 0b0001 @ rs`2 @ rd`2
 	sub {rd: reg}, {rs: reg} => 0b0010 @ rs`2 @ rd`2

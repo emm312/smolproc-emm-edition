@@ -8,7 +8,6 @@ module decode(
     output reg [7:0] data_out_A,
     output reg [7:0] data_out_B,
     output reg [7:0] opc_out,
-    output reg [7:0] imm,
 
     output [1:0] regfile_read_A,
     output [1:0] regfile_read_B,
@@ -27,59 +26,58 @@ module decode(
         .opcode(opcode),
         .instr_t(typ)
     );
-    
-	 assign regfile_read_A = opcode[1:0];
-	 assign regfile_read_B = opcode[3:2];
-    always_latch begin
+
+    always_comb begin
+        has_imm = 0;
+        data_out_A = 0;
+        data_out_B = 0;
         if (~prv_imm) begin
+            dst = opcode[1:0];
             case (typ)
                 0: begin // Normal
-                    inner_opc = { 4'b0, opcode[7:4] };
+                    opc_out = { 4'b0, opcode[7:4] };
+                    regfile_read_A = opcode[1:0];
+                    regfile_read_B = opcode[3:2];
                     has_imm = 0;
                     read_en_A = 1;
                     read_en_B = 1;
                 end
                 1: begin // Normal Imm
+                    opc_out = 0;
                     inner_opc = { 4'b0, opcode[7:4] };
+                    regfile_read_A = opcode[1:0];
+                    regfile_read_B = opcode[3:2];
                     has_imm = 1;
                     read_en_A = 1;
-                    read_en_B = 1;
+                    read_en_B = 0;
                 end
                 2: begin // Ext
-                    inner_opc = { 2'b0, opcode[7:2] };
+                    opc_out = { 2'b0, opcode[7:2] };
+                    regfile_read_A = opcode[1:0];
                     has_imm = 0;
-                    read_en_A = 1;
-                    read_en_B = 0;
+                    read_en_B = 1;
                 end
                 3: begin // ExtImm
+                    opc_out = 0;
                     inner_opc = { 2'b0, opcode[7:2] };
+                    regfile_read_A = opcode[1:0];
                     read_en_A = 1;
-                    read_en_B = 0;
                     has_imm = 1;
                 end
             endcase
-        end else begin
-				read_en_A = 0;
-				read_en_B = 0;
-				has_imm = 0;
-			end
-    end
-	 
-	 always_latch begin
-        if (prv_imm) begin
-				dst = dst;
-            data_out_A = data_A;
-            data_out_B = data_B;
-            imm = opcode;
-            opc_out = inner_opc;
-        end else begin
-				dst = opcode[1:0];
-            data_out_A = data_A;
-            data_out_B = data_B;
-            imm = 0;
-            opc_out = inner_opc;
         end
-	 end
+        if (prv_imm) begin
+            data_out_A = data_A;
+            data_out_B = opcode;
+            read_en_A = 0;
+            read_en_B = 0;
+            opc_out = inner_opc;
+            has_imm = 0;
+        end else begin
+            data_out_A = data_A;
+            data_out_B = data_B;
+        end
+    end
 
     always_ff @(posedge clk) begin
         prv_imm <= has_imm;

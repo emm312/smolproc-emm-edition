@@ -1,0 +1,25 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "data_out_A[0]",
+					"strict" : false
+				},
+				{
+					"name" : "data_out_A[1]",
+					"strict" : false
+				},
+				{
+					"name" : "data_out_B[1]",
+					"strict" : false
+				},
+				{
+					"name" : "async_rst",
+					"strict" : false
+				}
+			]
+		}
+	]
+}

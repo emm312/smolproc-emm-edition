@@ -36,7 +36,7 @@ module cpu(
         .write_en(mem_write),
         .addr_read_A(mem_data_addr),
         .addr_write(mem_wr_addr),
-        .data_out_A(mem_data_out_A),
+        .data_out_A(mem_data_out_B),
         .data_out_B(mem_data_out_B),
         .read_en_A(mem_read_en),
         .pc

@@ -10,10 +10,10 @@ module SystemClockDomainManager (
 
     //? Put your PLL here, connect sys_clk to `outclk0`, connect clk_lock to `locked`
         wire clk_lock;
-		  pll pll(
-			.c0(sys_clk),
-			.locked(clk_lock),
-			.inclk0(ref_clk_50)
+		pll pll(
+		    .c0(sys_clk),
+		    .locked(clk_lock),
+		    .inclk0(ref_clk_50)
 		);
     //?
 

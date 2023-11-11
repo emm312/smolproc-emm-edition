@@ -28,8 +28,8 @@ module decode(
         .instr_t(typ)
     );
     
-	 assign regfile_read_A = opcode[1:0];
-	 assign regfile_read_B = opcode[3:2];
+	assign regfile_read_A = opcode[1:0];
+	assign regfile_read_B = opcode[3:2];
     always_latch begin
         if (~prv_imm) begin
             case (typ)
@@ -59,21 +59,21 @@ module decode(
                 end
             endcase
         end else begin
-				read_en_A = 0;
-				read_en_B = 0;
-				has_imm = 0;
-			end
+			read_en_A = 0;
+			read_en_B = 0;
+			has_imm = 0;
+		end
     end
 	 
 	 always_latch begin
         if (prv_imm) begin
-				dst = dst;
+			dst = dst;
             data_out_A = data_A;
             data_out_B = data_B;
             imm = opcode;
             opc_out = inner_opc;
         end else begin
-				dst = opcode[1:0];
+			dst = opcode[1:0];
             data_out_A = data_A;
             data_out_B = data_B;
             imm = 0;

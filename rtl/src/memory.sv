@@ -13,7 +13,7 @@ module memory(
 );
     reg [7:0] ram [255:0];
     initial
-        $readmemh("../../ram.mif", ram);
+        $readmemh("ram.mif", ram);
     
     always_ff @(posedge clk) begin
         if (read_en_A) data_out_A <= ram[addr_read_A];

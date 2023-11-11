@@ -1,3 +1,7 @@
 *.mem
 *.vcd
-/tmpram.mif.bak
+/*.bak
+/Projects/Quartus/db
+/Projects/Quartus/incremental_db
+/Projects/Quartus/output_files
+/Projects/Quartus/simulation

@@ -1,1 +1,0 @@
-Warning (10268): Verilog HDL information at decode.sv(75): always construct contains both blocking and non-blocking assignments File: /home/emm312/Desktop/coding/systemverilog/smolproc-emm-edition/rtl/src/decode.sv Line: 75

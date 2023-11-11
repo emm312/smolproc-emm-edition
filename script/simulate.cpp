@@ -20,9 +20,8 @@ int main(int argc, char** argv, char** env) {
   test->clk_en = 1;
 
   while (sim_time < MAX_SIM_TIME && !contextp->gotFinish()) {
-    if(sim_time % 2 == 1) {
-        test->sync_rst = sim_time < 2;
-    }
+    test->sync_rst = sim_time < 2;
+    
 
     //-----------------------------
     test->eval();

@@ -1,6 +1,8 @@
 module cpu(
     input clk,
-    input sync_rst
+    input sync_rst,
+    output [7:0] data_out_A,
+    output [7:0] data_out_B
 );
     wire read_en_A, read_en_B;
     wire write_en;
@@ -25,7 +27,6 @@ module cpu(
     wire [7:0] data_A;
     wire [7:0] data_B;
     wire [7:0] decoded_opcode;
-    wire instr_has_imm;
 
     memory ram(
         .clk,
@@ -77,7 +78,6 @@ module cpu(
         .data_A(regoutA),
         .data_B(regoutB),
         .opc_out(decoded_opcode),
-        .has_imm(instr_has_imm),
         .regfile_read_A(addr_read_A),
         .regfile_read_B(addr_read_B),
         .read_en_A,
@@ -85,6 +85,6 @@ module cpu(
         .data_out_A(data_A),
         .data_out_B(data_B)
     );
-
-    
+    assign data_out_A = data_A;
+    assign data_out_B = data_B;
 endmodule

@@ -1,4 +1,3 @@
-
 module decode(
     input clk,
     input sync_rst,
@@ -9,16 +8,16 @@ module decode(
     output reg [7:0] data_out_A,
     output reg [7:0] data_out_B,
     output reg [7:0] opc_out,
-    output reg has_imm,
 
     output [1:0] regfile_read_A,
     output [1:0] regfile_read_B,
-    output reg read_en_A,
-    output reg read_en_B,
+    output read_en_A,
+    output read_en_B,
 
     input [7:0] data_A,
     input [7:0] data_B
 );
+    reg has_imm;
     reg [31:0] typ;
     reg prv_imm;
     reg [7:0] inner_opc;
@@ -30,6 +29,8 @@ module decode(
 
     always_comb begin
         has_imm = 0;
+        data_out_A = 0;
+        data_out_B = 0;
         if (~prv_imm) begin
             dst = opcode[1:0];
             case (typ)
@@ -59,9 +60,8 @@ module decode(
                 3: begin // ExtImm
                     opc_out = 0;
                     inner_opc = { 2'b0, opcode[7:2] };
-                    inner_opc = 0;
                     regfile_read_A = opcode[1:0];
-                    read_en_B = 1;
+                    read_en_A = 1;
                     has_imm = 1;
                 end
             endcase
@@ -72,6 +72,7 @@ module decode(
             read_en_A = 0;
             read_en_B = 0;
             opc_out = inner_opc;
+            has_imm = 0;
         end else begin
             data_out_A = data_A;
             data_out_B = data_B;

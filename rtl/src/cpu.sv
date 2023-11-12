@@ -27,6 +27,9 @@ module cpu(
     wire [7:0] data_A;
     wire [7:0] data_B;
     wire [7:0] decoded_opcode;
+    wire [7:0] imm;
+
+    wire [7:0] instr_res;
 
     memory ram(
         .clk,
@@ -62,10 +65,10 @@ module cpu(
         .write_en,
         .addr_read_A,
         .addr_read_B,
-        .addr_write,
+        .addr_write(dst),
         .data_out_A(regoutA),
         .data_out_B(regoutB),
-        .data_in
+        .data_in(instr_res)
     );
 
     decode decode_stage(
@@ -83,8 +86,25 @@ module cpu(
         .read_en_A,
         .read_en_B,
         .data_out_A(data_A),
-        .data_out_B(data_B)
+        .data_out_B(data_B),
+        .imm
     );
     assign data_out_A = data_A;
     assign data_out_B = data_B;
+
+    execute execute_stage(
+        .clk,
+        .sync_rst,
+
+        .op_a(regoutA),
+        .op_b(regoutB),
+        .imm,
+        .opcode(decoded_opcode),
+        .br_addr(branch_wr),
+        .br_en(branch_wr_en),
+        .res(instr_res),
+        .wr_en(write_en),
+        .mem_wr_addr,
+        .mem_wr_en(mem_write)
+    );
 endmodule

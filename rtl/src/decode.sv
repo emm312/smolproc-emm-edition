@@ -3,7 +3,7 @@ module decode(
     input sync_rst,
 
     input [7:0] opcode,
-    output stall_en,
+    output reg stall_en,
     output reg [1:0] dst,
     output reg [7:0] data_out_A,
     output reg [7:0] data_out_B,
@@ -65,15 +65,19 @@ module decode(
     
     assign opc_out = inner_opc;
     always_latch begin
-        if (prv_imm & ~has_imm) begin
+        if (prv_imm) begin
             data_out_A = data_A;
             data_out_B = data_B;
             imm = opcode;
+            stall_en = 0;
+        end else if (has_imm) begin
+            stall_en = 1;
         end else begin
             dst = opcode[1:0];
             data_out_A = data_A;
             data_out_B = data_B;
             imm = 0;
+            stall_en = 0;
         end
      end
 
